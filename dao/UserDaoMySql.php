@@ -41,4 +41,50 @@ class UserDaoMySql implements UserDAO {
 
     return false;
   }
+  
+  public function findByEmail($email){
+    if(!empty($email)){
+      $sql = $this->pdo->prepare("SELECT * FROM ".$this->name." WHERE email = :email");
+      $sql->bindValue(':email', $email);
+      $sql->execute();
+
+      if($sql->rowCount() > 0){
+        $data = $sql->fetch(PDO::FETCH_ASSOC);
+        $user = $this->generateUser($data);
+        return $user;
+      }
+    }
+
+    return false;
+  }
+
+  public function update(User $u){
+    
+    $sql = $this->pdo->prepare("UPDATE users SET 
+      email = :email,
+      password = :password,
+      name = :name,
+      bithdate = :bithdate,
+      city = :city,
+      work = :work,
+      avatar = :avatar,
+      cover = :cover,
+      token = :token
+      WHERE id = :id");
+
+    $sql->bindValue(':id', $id);
+    $sql->bindValue(':email', $email);
+    $sql->bindValue(':password', $password);
+    $sql->bindValue(':name', $name);
+    $sql->bindValue(':birthdate', $birthdate);
+    $sql->bindValue(':city', $city);
+    $sql->bindValue(':work', $work);
+    $sql->bindValue(':avatar', $avatar);
+    $sql->bindValue(':cover', $cover);
+    $sql->bindValue(':token', $token);
+
+    $sql->execute();
+
+    return true;
+  }
 }
