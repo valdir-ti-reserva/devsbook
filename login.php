@@ -12,7 +12,7 @@
 <body>
     <header>
         <div class="container">
-            <a href="<?=$base?>"><img src="<?=$base?>assets/images/devsbook_logo.png" /></a>
+            <a href="<?=$base?>"><img src="<?=$base?>/assets/images/devsbook_logo.png" /></a>
         </div>
     </header>
     <section class="container main">

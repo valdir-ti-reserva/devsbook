@@ -25,14 +25,14 @@ class Auth {
       }
     }
 
-    header("Location: ".$this->base."login.php");
+    header("Location: ".$this->base."/login.php");
     exit;
   }
 
   public function validateLogin($email, $password){
+    
     $userDao = new UserDaoMySql($this->pdo);
-
-    $user = $userDao->findByEmail($email);
+    $user    = $userDao->findByEmail($email);
 
     if($user){
       
@@ -50,6 +50,31 @@ class Auth {
     }
 
     return false;
+  }
+
+  public function emailExists($email){
+    
+    $userDao = new UserDaoMySql($this->pdo);
+    return $userDao->findByEmail($email) ? true : false;
+
+  }
+
+  public function registerUser($name, $email, $password, $birthdate){
+    $userDao = new UserDaoMySql($this->pdo);
+    
+    $hash  = password_hash($password, PASSWORD_DEFAULT);
+    $token = md5(time().rand(0, 9999));
+
+    $newUser            = new User();
+    $newUser->name      = $name;
+    $newUser->email     = $email;
+    $newUser->password  = $hash;
+    $newUser->birthdate = $birthdate;
+    $newUser->token     = $token;
+
+    $userDao->insert($newUser);
+
+    $_SESSION['token'] = $token;
   }
 
 }
