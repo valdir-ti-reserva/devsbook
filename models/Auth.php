@@ -33,11 +33,10 @@ class Auth {
     
     $userDao = new UserDaoMySql($this->pdo);
     $user    = $userDao->findByEmail($email);
-
     if($user){
       
       if(password_verify($password, $user->password)){
-
+       
         $token = md5(time().rand(0, 9999));
 
         $_SESSION['token'] = $token;

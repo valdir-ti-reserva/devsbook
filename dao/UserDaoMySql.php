@@ -21,8 +21,9 @@ class UserDaoMySql implements UserDAO {
     $u->cover     = $array['cover'] ?? '';
     $u->token     = $array['token'] ?? '';
     $u->avatar    = $array['avatar'] ?? '';
+    $u->password  = $array['password'] ?? '';
     $u->birthdate = $array['birthdate'] ?? '';
-
+    
     return $u;
   }
 
@@ -64,24 +65,24 @@ class UserDaoMySql implements UserDAO {
       email = :email,
       password = :password,
       name = :name,
-      bithdate = :bithdate,
+      birthdate = :birthdate,
       city = :city,
       work = :work,
       avatar = :avatar,
       cover = :cover,
       token = :token
       WHERE id = :id");
-
-    $sql->bindValue(':id', $id);
-    $sql->bindValue(':name', $name);
-    $sql->bindValue(':city', $city);
-    $sql->bindValue(':work', $work);
-    $sql->bindValue(':cover', $cover);
-    $sql->bindValue(':email', $email);
-    $sql->bindValue(':token', $token);
-    $sql->bindValue(':avatar', $avatar);
-    $sql->bindValue(':password', $password);
-    $sql->bindValue(':birthdate', $birthdate);
+      
+      $sql->bindValue(':id', $u->id);
+      $sql->bindValue(':name', $u->name);
+      $sql->bindValue(':city', $u->city);
+      $sql->bindValue(':work', $u->work);
+      $sql->bindValue(':cover', $u->cover);
+      $sql->bindValue(':token', $u->token);
+      $sql->bindValue(':email', $u->email);
+      $sql->bindValue(':avatar', $u->avatar);
+      $sql->bindValue(':password', $u->password);
+      $sql->bindValue(':birthdate', $u->birthdate);
 
     $sql->execute();
 
