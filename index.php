@@ -1,11 +1,15 @@
 <?php
   require 'config.php';
-  require 'models/Auth.php';
+  require 'models/Auth.php'; 
+  require 'dao/PostDaoMySql.php';
 
   //Verifica se o usuário está logado
   $auth       = new Auth($pdo, $base);
   $userInfo   = $auth->checkToken();
   $activeMenu = 'home';
+
+  $postDao = new PostDaoMySql($pdo);
+  $feed    = $postDao->getHomeFeed($userInfo->id);
 
   require 'partials/header.php';
   require 'partials/menu.php';
@@ -14,11 +18,13 @@
 <section class="feed mt-10">
   <div class="row">
     
-    <div class="column pr-5">  
+    <div class="column pr-5">
+      
       <?php require 'partials/feed-editor.php'; ?>
 
-
-      
+      <?php foreach($feed as $item):?>
+        <?php require 'partials/feed-item.php'; ?>
+      <?php endforeach;?>
 
     </div>
 
